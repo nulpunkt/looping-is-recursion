@@ -1,11 +1,12 @@
 (ns looping-is-recursion)
 
 (defn power [base exp]
-  (let [power-helper (fn [acc base exp]
-                        (if (zero? exp)
-                          acc
-                          (recur (* acc base) base (dec exp))))]
-  (power-helper 1 base exp)))
+  (loop [acc 1
+         base base
+         exp exp]
+    (if (zero? exp)
+      acc
+      (recur (* acc base) base (dec exp)))))
 
 (defn last-element [a-seq]
   (cond
@@ -21,7 +22,13 @@
     :else (recur (rest seq1) (rest seq2))))
 
 (defn find-first-index [pred a-seq]
-  ":(")
+  (loop [i 0
+         pred pred
+         a-seq a-seq]
+    (cond
+      (empty? a-seq) nil
+      (pred (first a-seq)) i
+      :elso (recur (inc i) pred (rest a-seq)))))
 
 (defn avg [a-seq]
   -1)
